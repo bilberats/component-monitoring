@@ -2,9 +2,9 @@
 # io_power_logger.sh
 # Logs I/O activity (read+write bytes) over time as a proxy for disk power
 
-INTERVAL=1      # seconds between samples
-DURATION=10     # total duration
-OUTPUT="io_power.csv"
+INTERVAL=${1:-1}      # seconds between samples
+DURATION=${2:-10}     # total duration
+OUTPUT="data/io_power.csv"
 DEVICE="sda"    # your block device (e.g., sda, nvme0n1)
 
 echo "timestamp,read_kB,write_kB,total_kB" > "$OUTPUT"

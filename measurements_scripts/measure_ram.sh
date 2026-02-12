@@ -6,9 +6,9 @@
 # -----------------------------
 # Configurable parameters
 # -----------------------------
-INTERVAL=1    # seconds between measurements
-DURATION=20   # total duration in seconds
-OUTPUT="ram_power.csv"
+INTERVAL=${1:-1}      # seconds between samples
+DURATION=${2:-10}     # total duration
+OUTPUT="data/ram_power.csv"
 
 DOMAIN="/sys/class/powercap/intel-rapl:0:1/energy_uj"
 
