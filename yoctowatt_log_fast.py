@@ -6,7 +6,7 @@ from yoctopuce.yocto_power import *
 p = argparse.ArgumentParser()
 p.add_argument("--hub", default="127.0.0.1:4444", help="Adresse du VirtualHub ou 'usb'")
 p.add_argument("--name", default="", help="Nom logique ex: YWATT.power ; vide = 1er capteur trouvé")
-p.add_argument("--out", default="yoctowatt.csv", help="Nom du fichier CSV de sortie")
+p.add_argument("--out", default="data/yoctowatt.csv", help="Nom du fichier CSV de sortie")
 p.add_argument("--seconds", type=float, default=60.0, help="Durée totale en secondes")
 p.add_argument("--req_hz", type=float, default=100.0, help="Fréquence demandée (Hz)")
 p.add_argument("--save_interval", type=float, default=10.0, help="Sauvegarde toutes les X secondes")
