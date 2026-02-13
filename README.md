@@ -15,6 +15,9 @@ graph TD;
     ExternalMeasurement --> |USB| PCMonitoring;
     PCMonitoring -.-> |start_measurement.sh Launches orchestrate_measures.sh| PCMeasured;
 ```
+
+The external measurments could be done on the same pc as the PC measured but for my purpose, it is done on the monitoring PC.
+
 ## Start the main script
 The main scipt collects all measurements from the measured pc and the external measurements (Yoctopuce).  
 Data (CSV files) is stored on both pc and have to be retreived manually for the moment.
@@ -60,6 +63,9 @@ The measures I kept are :
 - `PkgTmp`: Temperature of the full CPU package (°C).
 - `PkgWatt`: Total CPU package power consumption (watts).
 - `CorWatt`: Power consumed by CPU cores only (watts). 
+- `LLCkRPS`: Total last-level cache (LLC) accesses per second, in thousands (loads + stores).
+- `LLC%hit`: Percentage of LLC accesses that hit the cache instead of going to DRAM.
+
 They seem to be the most relevant for accurate CPU consumption estimation 
 
 ### What i discovered
