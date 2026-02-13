@@ -8,7 +8,6 @@ DURATION=${2:-10}     # total duration
 
 SCRIPTS=(
   "./measurements_scripts/measure_cpu.sh"
-  "./measurements_scripts/measure_temp.sh"
   "./measurements_scripts/measure_io.sh"
   "./measurements_scripts/measure_nic.sh"
   "./measurements_scripts/measure_ram.sh"
