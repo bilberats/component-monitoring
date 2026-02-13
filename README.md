@@ -21,6 +21,7 @@ Data (CSV files) is stored on both pc and have to be retreived manually for the 
 
 The scipt starts with this command:  
 ```bash
+source .venv/bin/activate
 bash start_measurements.sh
 ```
 
