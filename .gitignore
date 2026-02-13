@@ -1,3 +1,2 @@
 .venv
-data_300/*
-data/*
+data*/*

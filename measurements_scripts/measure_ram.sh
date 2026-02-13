@@ -6,55 +6,31 @@
 # -----------------------------
 # Configurable parameters
 # -----------------------------
-INTERVAL=${1:-1}      # seconds between samples
-DURATION=${2:-10}     # total duration
-OUTPUT="data/ram_power.csv"
+#!/bin/bash
 
-DOMAIN="/sys/class/powercap/intel-rapl:0:1/energy_uj"
+# Usage: ./log_llc.sh <interval_sec> <duration_sec> <output.csv>
+INTERVAL=${1:-1}      # seconds between samples, default 1s
+DURATION=${2:-10}     # total duration, default 10s
+OUTPUT="data/ram_power.csv"  # output CSV file, default llc_log.csv
 
-# -----------------------------
-# Check root
-# -----------------------------
-if [[ $EUID -ne 0 ]]; then
-    echo "Please run as root"
-    exit 1
-fi
+echo "Timestamp,LLC-loads,LLC-stores" > "$OUTPUT"
 
-# -----------------------------
-# Check RAPL domain exists
-# -----------------------------
-if [[ ! -f "$DOMAIN" ]]; then
-    echo "DRAM RAPL domain not found at $DOMAIN"
-    exit 1
-fi
+# Calculate number of iterations
+ITERATIONS=$((DURATION / INTERVAL))
 
-# -----------------------------
-# Initialize CSV
-# -----------------------------
-echo "timestamp,ram_power_w" > "$OUTPUT"
+for ((i=0; i<ITERATIONS; i++)); do
+    TIMESTAMP=$(date +%s)
 
-# -----------------------------
-# Sampling loop
-# -----------------------------
-NUM_SAMPLES=$(( DURATION / INTERVAL ))
-for ((i=0; i<NUM_SAMPLES; i++)); do
-    # read start energy
-    E_START=$(cat $DOMAIN)
-    T_START=$(date +%s)
+    # Capture LLC-loads and LLC-stores system-wide for 1 interval
+    PERF_OUTPUT=$(perf stat -a -e LLC-loads,LLC-stores sleep "$INTERVAL" 2>&1)
 
-    sleep $INTERVAL
+    # Extract the counts
+    LLC_LOADS=$(echo "$PERF_OUTPUT" | grep LLC-loads | awk '{print $1}' | tr -d ',')
+    LLC_STORES=$(echo "$PERF_OUTPUT" | grep LLC-stores | awk '{print $1}' | tr -d ',')
 
-    # read end energy
-    E_END=$(cat $DOMAIN)
-    T_END=$(date +%s)
-
-    # compute power (Watts)
-    # delta energy in Joules
-    DELTA_J=$((E_END - E_START))
-    POWER=$(echo "scale=4; $DELTA_J / 1000000 / $INTERVAL" | bc -l)
-
-    # log CSV
-    echo "$T_END,$POWER" >> "$OUTPUT"
+    # Append to CSV
+    echo "$TIMESTAMP,$LLC_LOADS,$LLC_STORES" >> "$OUTPUT"
 done
 
-echo "Done. CSV saved to $OUTPUT"
+echo "Logging complete. CSV saved to $OUTPUT"
+
