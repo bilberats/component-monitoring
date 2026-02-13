@@ -17,8 +17,20 @@ graph TD;
 ```
 
 The external measurments could be done on the same pc as the PC measured but for my purpose, it is done on the monitoring PC.
+## Installation
+
+The installation is relatively simple, you need to clone the repo on both machines, change the ip of the measured pc in the `start_measurements.sh` script (create an ssh key for the monitoring pc to connect to the measured pc). Then create a python virtual environment and install all dependancies. This can be done with these commands :
+
+```bash
+git clone https://github.com/bilberats/component-monitoring.git
+cd component-monitoring
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```  
 
 ## Start the main script
+
 The main scipt collects all measurements from the measured pc and the external measurements (Yoctopuce).  
 Data (CSV files) is stored on both pc and have to be retreived manually for the moment.
 
@@ -50,6 +62,7 @@ Check for synchronisation
 `chronyc tracking`
 
 ### What are the best relevant measures from turbostat
+
 From turbostat, i can have acces to all those measures:  
 `usec,Time_Of_Day_Seconds,Core,CPU,APIC,X2APIC,Avg_MHz,Busy%,Bzy_MHz,TSC_MHz,IPC,IRQ,NMI,SMI,LLCkRPS,LLC%hit,POLL-,POLL,C1-,C1,C1+,C1E-,C1E,C1E+,C3-,C3,C3+,C6-,C6,C6+,POLL%,C1%,C1E%,C3%,C6%,CPU%c1,CPU%c3,CPU%c6,CPU%c7,CoreTmp,CoreThr,PkgTmp,GFX%rc6,GFXMHz,GFXAMHz,Pkg%pc2,Pkg%pc3,Pkg%pc6,Pkg%pc7,PkgWatt,CorWatt,GFXWatt`  
 
@@ -69,6 +82,7 @@ The measures I kept are :
 They seem to be the most relevant for accurate CPU consumption estimation 
 
 ### What i discovered
+
 The ram measurement script i made don't actually reads the ram power, it reads the PP0 (core subsystem) consumption in joule, so that is : 
 - uncore
 - integrated GPU (in this case ~nothing)
