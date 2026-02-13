@@ -13,7 +13,7 @@ INTERVAL=${1:-1}      # seconds between samples, default 1s
 DURATION=${2:-10}     # total duration, default 10s
 OUTPUT="data/ram_power.csv"  # output CSV file, default llc_log.csv
 
-echo "Timestamp,LLC-loads,LLC-stores" > "$OUTPUT"
+echo "timestamp,LLC-loads,LLC-stores" > "$OUTPUT"
 
 # Calculate number of iterations
 ITERATIONS=$((DURATION / INTERVAL))
