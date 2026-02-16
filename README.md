@@ -131,3 +131,21 @@ $$E_{ram_i} = N_{R_i} × ER +N_{W_i} × E_W$$
 - $`E_W`$ – Energy consumed by a single write operation, also obtained from performance profiling or benchmarks.
 
 What I have to do is recover the energy consumed by those operations.
+
+## Results
+
+Here are the metrics when the pc is idle for a measurement of 300s (5min):  
+!["Metrics for a pc in idle for 300s"](/assets/idle_metrics_300.png "Metrics for a pc in idle for 300s")
+
+Based on the metrics some models were trained, here are the perdiction obtained
+!["Predictions of the trained models"](/assets/estimations_from_trained_models_idle.png "Predictions of the trained models")
+
+Here is the RMSE from all the models:
+|   Model   |   RMSE    |
+| --------- | --------- |
+| Random Forest | 0.826542 |
+| XGBoost | 0.743895 |
+| Linear Regression | 0.683922 |
+| LSTM | 2.813287 |
+
+The best perfomance is acheived with linear regression with a MAPE (Mean Absolute Percentage Error) of `0.99%`.
